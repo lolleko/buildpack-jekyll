@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe "JvmInstaller" do
   it "JVM is installed by jvm-common only" do
+    pending("Update app to heroku-16")
     app = Hatchet::Runner.new("ruby_193_jruby_17161")
     app.setup!
     bp = app.heroku.get_config_vars(app.name).body["BUILDPACK_URL"]

@@ -3,6 +3,7 @@ require_relative '../spec_helper'
 describe "Rails 3.x" do
   it "should deploy on ruby 1.9.3" do
     Hatchet::Runner.new("rails3_mri_193").deploy do |app, heroku|
+      pending("Update app to heroku-16")
       expect(app.output).to include("Asset precompilation completed")
 
       expect(app.output).to match("WARNING")
@@ -37,11 +38,9 @@ describe "Rails 3.x" do
   end
 
   context "when not using the rails gem" do
-    it "should deploy on ruby 1.9.3" do
-      Hatchet::Runner.new("railties3_mri_193").deploy do |app, heroku|
-        expect(app.output).to include("Asset precompilation completed")
-        expect(app.output).to match("Ruby/Rails")
-        expect(successful_body(app)).to eq("hello")
+    it "should detect as a rails app" do
+      Hatchet::App.new('railties3_mri_193').in_directory do
+        expect(LanguagePack::Rails3.use?).to eq(false)
       end
     end
   end
